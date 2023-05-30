@@ -1,5 +1,5 @@
 const express = require("express");
-const logger = require("morgan");
+const logger = require("morgan"); // виводить в консоль інформацію про запит
 const cors = require("cors");
 
 const contactsRouter = require("./routes/api/contacts");
@@ -12,10 +12,10 @@ require("dotenv").config();
 
 const app = express();
 
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+const formatsLogger = app.get("env") === "development" ? "dev" : "short"; // виводити у logger (як console.log) повну, або коротку інформацію
 
 app.use(logger(formatsLogger));
-app.use(cors());
+app.use(cors()); // якщо треба обмежити доступ, то в пакет cors() можна передати список дозволених адрес
 app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
