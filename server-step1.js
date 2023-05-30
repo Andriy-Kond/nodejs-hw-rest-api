@@ -6,11 +6,10 @@ const app = require("./app");
 const mongoose = require("mongoose");
 // const DB_HOST =
 // 	"mongodb+srv://Andriy-User:knxnEFLO6qBZbGQE@cluster0.9p0p26j.mongodb.net/db-contacts?retryWrites=true&w=majority";
-// const { DB_HOST } = require("./config");
-const { DB_HOST } = process.env;
+const { DB_HOST } = require("./config");
 
 // process.env - це об'єкт зі змінними оточення поточного пристрою (серверу/комп'ютеру).
-// console.log("process.env :>> ", process.env);
+console.log("process.env :>> ", process.env);
 // Тому ми залишимо ключ DB_HOST з необхідним значенням на сервері, а тут вкажемо, що звертатись треба до змінної оточення замість звертання до файлу config.js
 
 mongoose.set("strictQuery", true); // З сьомої версії Mangoose воно false за замовчуванням.
