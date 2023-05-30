@@ -24,7 +24,11 @@ app.use((req, res) => {
 	res.status(404).json({ message: "Not found" });
 });
 
+// Обробка помилок (сюди її передає next(error) з ctrlWrapper):
 app.use((err, req, res, next) => {
+	// mongoose кидає помилки без статусу. А якщо статусу немає, то за замовчуванням статус = 500
+	// А помилка валідації тіла - це помилка 400, а не 500
+	// Тому до схеми валідації треба додавати middleware
 	const { status = 500, message = "Server error" } = err;
 	res.status(status).json({ message });
 });
