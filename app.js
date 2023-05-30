@@ -3,6 +3,13 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const contactsRouter = require("./routes/api/contacts");
+
+// // Додаю нові змінні у глобальний об'єкт змінних оточення process.env:
+// const dotenv = require("dotenv");
+// dotenv.config(); // метод config() шукає файл .env і додає його значення до process.env
+// Якщо dotenv не потрібна, то можна написати коротше:
+require("dotenv").config();
+
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
