@@ -3,7 +3,7 @@ const ctrlWrapper = (ctrl) => {
 		try {
 			await ctrl(req, res, next);
 		} catch (error) {
-			next(error); // передає помилку в обробник помилок: у app.js, і там у app.use з чотирма параметрами: app.use((err, req, res, next)
+			next(error);
 		}
 	};
 	return func;

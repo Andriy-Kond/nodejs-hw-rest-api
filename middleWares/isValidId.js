@@ -6,7 +6,7 @@ const isValidId = (req, res, next) => {
 	if (!isValidObjectId(contactId)) {
 		next(HttpError(400, `${contactId} is not valid id`));
 	}
-	next(); // якщо id валідний, то просто йдемо даі
+	next();
 };
 
 module.exports = isValidId;
