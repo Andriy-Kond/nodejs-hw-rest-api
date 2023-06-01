@@ -17,7 +17,7 @@ router.put(
 router.patch(
 	"/:contactId/favorite",
 	isValidId,
-	validateBody(schemas.updateFavoriteSchemas),
+	validateBody(schemas.updateFavoriteSchema),
 	ctrl.updateStatusContact
 );
 router.delete("/:contactId", isValidId, ctrl.removeContact);

@@ -35,13 +35,13 @@ const addSchema = Joi.object({
 	favorite: Joi.boolean(),
 });
 
-const updateFavoriteSchemas = Joi.object({
+const updateFavoriteSchema = Joi.object({
 	favorite: Joi.boolean().required(),
 });
 
 const schemas = {
 	addSchema,
-	updateFavoriteSchemas,
+	updateFavoriteSchema,
 };
 
 module.exports = { Contact, schemas };
