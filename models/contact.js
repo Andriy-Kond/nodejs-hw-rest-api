@@ -18,9 +18,11 @@ const contactSchema = new Schema(
 			type: Boolean,
 			default: false,
 		},
+		// Для ідентифікації хто саме додав контакт маємо записати id власника
 		owner: {
-			type: Schema.Types.ObjectId,
-			ref: "user",
+			type: Schema.Types.ObjectId, // специфічний тип даних mongoose для позначення id власника. Тобто тут зберігається id, який генерує mongodb
+			ref: "user", // а тут пишуть назву колекції, з якої цей id
+			required: true,
 		},
 	},
 	{
