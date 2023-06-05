@@ -40,8 +40,15 @@ const authenticate = async (req, res, next) => {
 
 		// Але крім цього треба ще перевірити чи є ще людина з таким пропуском (токеном) у базі, бо може її вже видалили. Для цього нам треба її id
 		const user = await User.findById(id);
-		if (!user) {
-			next(HttpError(401, "This user is no longer in the database"));
+
+		// Якщо такого користувача немає, або в нього немає токена, або той токен не такий, як ми отримали в хедері
+		if (!user || !user.token || user.token !== token) {
+			next(
+				HttpError(
+					401,
+					"This user is no longer in the database or he not logged in"
+				)
+			);
 		}
 
 		// До об'єкту req додаємо ключ user, який дорівнює користувачу, якого ми знайшли
