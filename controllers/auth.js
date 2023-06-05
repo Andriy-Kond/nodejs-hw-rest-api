@@ -7,13 +7,11 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
-	// Якщо треба відправити на фронтенд унікальне повідомлення при помилці 409
 	const { email, password } = req.body;
-	const user = await User.findOne({ email }); // Перед тим, як зареєструвати давайте подивимось чи є вже у базі такий email
+	const user = await User.findOne({ email });
 	if (user) {
 		throw HttpError(409, "Email in use");
 	}
-	// /Якщо треба відправити на фронтенд унікальне повідомлення при помилці 409
 
 	const hashPassword = await bcrypt.hash(password, 10);
 
@@ -26,27 +24,21 @@ const register = async (req, res) => {
 const login = async (req, res) => {
 	const { email, password } = req.body;
 
-	// Спочатку перевіряємо чи є такий юзер:
 	const user = await User.findOne({ email });
 	if (!user) {
 		throw HttpError(401, "Email or password is wrong");
 	}
 
-	// Якщо юзер є, то перевіряємо його пароль:
 	const passCompare = await bcrypt.compare(password, user.password);
 	if (!passCompare) {
 		throw HttpError(401, "Email or password is wrong");
 	}
 
-	// Якщо user знайдений і пароль збігається, то створюємо токен (пропуск) і відправляємо його на фронтенд. Далі фронтенд в кожний запит додає цей токен.
-	// Токен (JWT - JSON Web Token) складається із: заголовків (Headers), даних користувача (зазвичай лише id) (payload) і секретного ключа (рядок, що використовується для шифрування).
 	const payload = { id: user._id };
 	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "47h" });
 
-	// Записуємо токен у базу для його видалення при розлогіні
 	await User.findByIdAndUpdate(user._id, { token });
 
-	// Передаємо токен у відповідь:
 	res.json({
 		token,
 		user: {
@@ -58,14 +50,13 @@ const login = async (req, res) => {
 
 const getCurrent = async (req, res) => {
 	const { email, subscription } = req.user;
-	res.json({ email, subscription }); // повертаємо на фронтенд
+	res.json({ email, subscription });
 };
 
 const logout = async (req, res) => {
 	const { _id } = req.user;
 	await User.findByIdAndUpdate(_id, { token: "" });
 
-	// res.json({ message: "Logout success" }); // повертаємо на фронтенд
 	res.status(204).json();
 };
 
@@ -74,7 +65,6 @@ const updateSubscriptionUser = async (req, res) => {
 	const result = await User.findByIdAndUpdate(userId, req.body, {
 		new: true,
 	});
-	// console.log("updateStatusContact >> result:", result);
 
 	if (!result) {
 		throw HttpError(404, "Not Found");
@@ -85,7 +75,7 @@ const updateSubscriptionUser = async (req, res) => {
 module.exports = {
 	register: ctrlWrapper(register),
 	login: ctrlWrapper(login),
-	getCurrent: ctrlWrapper(getCurrent), // не обов'язково загортати у ctrlWrapper, просто для універсальності
+	getCurrent: ctrlWrapper(getCurrent),
 	logout: ctrlWrapper(logout),
 	updateSubscriptionUser: ctrlWrapper(updateSubscriptionUser),
 };
