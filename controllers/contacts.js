@@ -34,7 +34,9 @@ const listContacts = async (req, res) => {
 	// ).populate("owner", "name email -_id");
 
 	// Для пагінації. Всі параметри запиту(пошуку, шо після ?) містяться у об'єкті req.query:
-	const { page = 1, limit = 10 } = req.query; // одразу пишемо зі значенням за замовчуванням
+	const { page = 1, limit = 20, favorite } = req.query; // одразу пишемо зі значенням за замовчуванням
+	console.log("listContacts >> favorite:", favorite);
+	console.log("listContacts >> req.query:", req.query);
 	// Теоретично можна взяти всі книги, потім зробити slice() і т.і. Але правильно робити запит, який одразу поверне те, що потрібно.
 	// Це робиться через третій параметр у методі find(). Там можна передати різні налаштування, сортування і т.і. А у mongoose вже є вбудовані методи для пагінації - skip та limit.
 	// skip - це скільки пропустити об'єктів з початку бази
@@ -43,9 +45,19 @@ const listContacts = async (req, res) => {
 	const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
 		skip,
 		limit,
-	}).populate("owner", "name email -_id");
+	}).populate("owner", "name email");
 
-	res.json(result);
+	// Додаю сортування в залежності від переданого чи не переданого параметра favorite після "?"
+	// console.log("listContacts >> result:", result);
+	if (favorite) {
+		const newResult = result.filter((item) => {
+			// console.log(item.favorite === Boolean(favorite));
+			return item.favorite === Boolean(favorite);
+		});
+		res.json(newResult);
+	} else {
+		res.json(result);
+	}
 };
 
 // Тут перевірку робити не потрібно, тому що id, який користувач передасть може бути лише зі списку його особистих id. Тобто тих, які він отримує, зробивши запит через функцію listContacts
@@ -92,7 +104,7 @@ const updateStatusContact = async (req, res) => {
 	const result = await Contact.findByIdAndUpdate(contactId, req.body, {
 		new: true,
 	});
-	console.log("updateStatusContact >> result:", result);
+	// console.log("updateStatusContact >> result:", result);
 
 	if (!result) {
 		throw HttpError(404, "Not Found");

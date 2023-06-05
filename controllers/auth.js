@@ -57,15 +57,29 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-	const { name, email } = req.user;
-	res.json({ name, email }); // повертаємо на фронтенд
+	const { email, subscription } = req.user;
+	res.json({ email, subscription }); // повертаємо на фронтенд
 };
 
 const logout = async (req, res) => {
 	const { _id } = req.user;
 	await User.findByIdAndUpdate(_id, { token: "" });
 
-	res.json({ message: "Logout success" }); // повертаємо на фронтенд
+	// res.json({ message: "Logout success" }); // повертаємо на фронтенд
+	res.status(204).json();
+};
+
+const updateSubscriptionUser = async (req, res) => {
+	const { userId } = req.params;
+	const result = await User.findByIdAndUpdate(userId, req.body, {
+		new: true,
+	});
+	// console.log("updateStatusContact >> result:", result);
+
+	if (!result) {
+		throw HttpError(404, "Not Found");
+	}
+	res.json(result);
 };
 
 module.exports = {
@@ -73,4 +87,5 @@ module.exports = {
 	login: ctrlWrapper(login),
 	getCurrent: ctrlWrapper(getCurrent), // не обов'язково загортати у ctrlWrapper, просто для універсальності
 	logout: ctrlWrapper(logout),
+	updateSubscriptionUser: ctrlWrapper(updateSubscriptionUser),
 };
