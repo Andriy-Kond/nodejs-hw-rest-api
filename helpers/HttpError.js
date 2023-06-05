@@ -1,4 +1,3 @@
-// Додавання стандартних повідомлень
 const errorMessageList = {
 	400: "Bad Request",
 	401: "Not authorized",

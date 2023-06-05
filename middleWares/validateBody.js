@@ -5,7 +5,6 @@ const validateBody = (schema) => {
 		const { error } = schema.validate(req.body);
 		if (error) {
 			next(HttpError(400, `Помилка від Joi або іншої бібліотеки валідації`));
-			// next(HttpError(400, `missing fields: ${error.message}`));
 		}
 		next();
 	};
