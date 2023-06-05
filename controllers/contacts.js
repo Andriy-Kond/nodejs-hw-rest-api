@@ -13,10 +13,10 @@ const listContacts = async (req, res) => {
 	}).populate("owner", "name email");
 
 	if (favorite) {
-		const newResult = result.filter((item) => {
+		const filteredResult = result.filter((item) => {
 			return item.favorite === Boolean(favorite);
 		});
-		res.json(newResult);
+		res.json(filteredResult);
 	} else {
 		res.json(result);
 	}
