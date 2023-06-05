@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("*/api/auth", authRouter);
+app.use("*/api/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((req, res) => {
@@ -25,6 +25,10 @@ app.use((req, res) => {
 // При будь-якій помилці від middleware ми потрапимо сюди:
 app.use((err, req, res, next) => {
 	const { status = 500, message = "Server error" } = err;
+
+	if (status === 400) {
+		res.status(status).json(message);
+	}
 	res.status(status).json({ message });
 });
 

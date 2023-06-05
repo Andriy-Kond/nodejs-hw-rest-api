@@ -23,12 +23,18 @@ const userSchema = new Schema(
 			unique: true,
 			match: emailRageXP, // регулярний вираз для email
 		},
+
 		subscription: {
 			type: String,
 			enum: ["starter", "pro", "business"],
 			default: "starter",
 		},
-		token: String,
+
+		// Для того, щоби видаляти токен для розлогіна
+		token: {
+			type: String,
+			default: "", // не обов'язково
+		},
 	},
 	{
 		versionKey: false,
@@ -49,8 +55,12 @@ const registerSchema = Joi.object({
 });
 
 const loginSchema = Joi.object({
-	password: Joi.string().min(6).required(),
 	email: Joi.string().pattern(emailRageXP).required(),
+	password: Joi.string().min(6).required(),
+});
+
+const updateSubscriptionSchema = Joi.object({
+	subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
 
 const User = model("user", userSchema);
@@ -58,6 +68,8 @@ const User = model("user", userSchema);
 const schemas = {
 	registerSchema,
 	loginSchema,
+
+	updateSubscriptionSchema,
 };
 
 module.exports = { User, schemas };

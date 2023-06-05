@@ -1,4 +1,4 @@
-// middleware аутентифікації
+// middleware аутентифікації (перевірка токена)
 // Має перевіряти:
 // 1. чи є в нас перше слово Bearer і друге - токен
 // 2. чи токен валідний
@@ -21,7 +21,8 @@ const authenticate = async (req, res, next) => {
 	// Якщо першого слова немає, то треба передати у next() помилку 401
 	if (bearer !== "Bearer") {
 		// next на відміну від json перериває функцію
-		next(HttpError(401, `Not found key-word "Bearer"`));
+		// next(HttpError(401, `Not found key-word "Bearer"`));
+		next(HttpError(401));
 	}
 
 	// Якщо перше слово таки Bearer, то далі ми перевіряємо валідність токену (за допомогою бібліотеки jsonwebtoken)
@@ -40,8 +41,16 @@ const authenticate = async (req, res, next) => {
 
 		// Але крім цього треба ще перевірити чи є ще людина з таким пропуском (токеном) у базі, бо може її вже видалили. Для цього нам треба її id
 		const user = await User.findById(id);
-		if (!user) {
-			next(HttpError(401, "This user is no longer in the database"));
+
+		// Якщо такого користувача немає, або в нього немає токена, або той токен не такий, як ми отримали в хедері
+		if (!user || !user.token || user.token !== token) {
+			next(
+				// HttpError(
+				// 	401,
+				// 	"This user is no longer in the database or he not logged in"
+				// )
+				HttpError(401)
+			);
 		}
 
 		// До об'єкту req додаємо ключ user, який дорівнює користувачу, якого ми знайшли
@@ -51,15 +60,18 @@ const authenticate = async (req, res, next) => {
 
 		// Якщо ж все добре, то просто йдемо далі:
 		next();
-	} catch (error) {
-		console.log("authenticate >> error:", error);
-		next(
-			HttpError(
-				401,
-				"Token not valid, or it time is up, or it was encrypted with a different pass-key"
-			)
-		);
+	} catch {
+		next(HttpError(401));
 	}
+	// catch (error) {
+	// 	console.log("authenticate >> error:", error);
+	// 	next(
+	// 		HttpError(
+	// 			401,
+	// 			"Token not valid, or it time is up, or it was encrypted with a different pass-key"
+	// 		)
+	// 	);
+	// }
 };
 
 module.exports = authenticate;
