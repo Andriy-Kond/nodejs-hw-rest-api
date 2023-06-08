@@ -1,0 +1,12 @@
+const { Contact } = require('../../models/contact');
+const { HttpError } = require('../../helpers');
+
+const removeContact = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await Contact.findByIdAndDelete(contactId);
+  if (!result) {
+    throw HttpError(404, 'Not Found');
+  }
+  res.json({ message: 'Contact deleted' });
+};
+module.exports = removeContact;

@@ -38,20 +38,22 @@ https://www.mongodb.com/try/download/compass
 
 https://jwt.io/
 
-#### Use bcrypt or bcryptjs for hash passwords
+#### Use bcrypt or bcryptjs for hashing passwords
 
 https://www.npmjs.com/package/bcrypt
 
 https://www.npmjs.com/package/bcryptjs
 
-#### Use Multer middleware for uploading files
+#### Use Multer middleware to upload files
 
 https://github.com/expressjs/multer
 
-#### Use gravatar for uploading random avatars
+#### Use gravatar to uploading random avatars
 
 https://www.npmjs.com/package/gravatar
 
 #### Use jimp (JavaScript Image Manipulation Program) for image processing
 
 https://www.npmjs.com/package/jimp
+
+#### Use Jest to write unit tests for the login controller

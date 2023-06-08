@@ -1,88 +1,10 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const gravatar = require('gravatar'); // робота з тимчасовими аватарками
 const path = require('path');
 const fs = require('fs/promises');
 
-const { User } = require('../models/user.js');
-const { HttpError, ctrlWrapper } = require('../helpers');
-
-const { SECRET_KEY } = process.env;
-
-const register = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (user) {
-    throw HttpError(409, 'Email in use');
-  }
-
-  const hashPassword = await bcrypt.hash(password, 10);
-  const avatarURL = gravatar.url(email); // у avatarURL буде посилання на тимчасову аватарку юзера з таким email
-
-  const newUser = await User.create({
-    ...req.body,
-    password: hashPassword,
-    avatarURL, // додаємо у базу ще і аватарку
-  });
-  res.status(201).json({
-    user: { email: newUser.email, subscription: newUser.subscription },
-  });
-};
-
-const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw HttpError(401, 'Email or password is wrong');
-  }
-
-  const passCompare = await bcrypt.compare(password, user.password);
-  if (!passCompare) {
-    throw HttpError(401, 'Email or password is wrong');
-  }
-
-  const payload = { id: user._id };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '47h' });
-
-  await User.findByIdAndUpdate(user._id, { token });
-
-  res.json({
-    token,
-    user: {
-      email: user.email,
-      subscription: user.subscription,
-    },
-  });
-};
-
-const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
-  res.json({ email, subscription });
-};
-
-const logout = async (req, res) => {
-  const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: '' });
-
-  res.status(204).json();
-};
-
-const updateSubscriptionUser = async (req, res) => {
-  const { userId } = req.params;
-  const result = await User.findByIdAndUpdate(userId, req.body, {
-    new: true,
-  });
-
-  if (!result) {
-    throw HttpError(404, 'Not Found');
-  }
-  res.json(result);
-};
-
 const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
-
 const Jimp = require('jimp');
+
+const { User } = require('../../models/user');
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
@@ -125,11 +47,4 @@ const updateAvatar = async (req, res) => {
   res.json({ avatarURL });
 };
 
-module.exports = {
-  register: ctrlWrapper(register),
-  login: ctrlWrapper(login),
-  getCurrent: ctrlWrapper(getCurrent),
-  logout: ctrlWrapper(logout),
-  updateSubscriptionUser: ctrlWrapper(updateSubscriptionUser),
-  updateAvatar: ctrlWrapper(updateAvatar),
-};
+module.exports = updateAvatar;
