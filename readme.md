@@ -1,31 +1,57 @@
-## GoIT Node.js Course Template Homework
+JS, Node.js, HTML, CSS
 
-Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
-Форк створить репозиторій на вашому http://github.com
+## REST API
 
-Додайте ментора до колаборації
+Goal: Build a REST API for working with a collection of contacts.
 
-Для кожної домашньої роботи створюйте свою гілку.
+### Tasks:
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+#### Use Express web framework for Node.js
 
-Кожна нова гілка для др повинна робитися з master
+https://www.npmjs.com/package/express
 
-Після того, як ви закінчили виконувати домашнє завдання у своїй гілці, необхідно зробити пулл-реквест (PR). Потім додати ментора для рев'ю коду. Тільки після того, як ментор заапрувить PR, ви можете виконати мердж гілки з домашнім завданням у майстер.
+#### Use Morgan (HTTP request logger middleware for node.js)
 
-Уважно читайте коментарі ментора. Виправте зауваження та зробіть коміт у гілці з домашнім завданням. Зміни підтягнуться у PR автоматично після того, як ви відправите коміт з виправленнями на github
-Після виправлення знову додайте ментора на рев'ю коду.
+https://www.npmjs.com/package/morgan
 
-- При здачі домашньої роботи є посилання на PR
-- JS-код чистий та зрозумілий, для форматування використовується Prettier
+#### Use Cors develop
 
-### Команди:
+https://www.npmjs.com/package/cors
 
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+#### Use Joi verification
+
+https://github.com/hapijs/joi
+
+#### Use boilerplate repo
+
+https://github.com/goitacademy/nodejs-homework-template
+
+#### Use Mongo.db database
+
+https://www.mongodb.com/products/compass
+
+#### Use Mongo Compass application
+
+https://www.mongodb.com/try/download/compass
+
+#### Use JWT (JSON Web Tokens)
+
+https://jwt.io/
+
+#### Use bcrypt or bcryptjs for hash passwords
+
+https://www.npmjs.com/package/bcrypt
+
+https://www.npmjs.com/package/bcryptjs
+
+#### Use Multer middleware for uploading files
+
+https://github.com/expressjs/multer
+
+#### Use gravatar for uploading random avatars
+
+https://www.npmjs.com/package/gravatar
+
+#### Use jimp (JavaScript Image Manipulation Program) for image processing
+
+https://www.npmjs.com/package/jimp
