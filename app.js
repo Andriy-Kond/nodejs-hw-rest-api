@@ -1,34 +1,33 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
-require("dotenv").config();
-const contactsRouter = require("./routes/api/contacts");
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
+require('dotenv').config();
+const contactsRouter = require('./routes/api/contacts');
 
-const authRouter = require("./routes/api/auth");
+const authRouter = require('./routes/api/users');
 
 const app = express();
-const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
-
 app.use(cors());
-
 app.use(express.json());
+app.use(express.static('public')); // Якщо прийде запит на статичний файл, то треба його шукати лише у теці "public"
 
-app.use("*/api/users", authRouter);
-app.use("/api/contacts", contactsRouter);
+app.use('*/api/users', authRouter);
+app.use('/api/contacts', contactsRouter);
 
 app.use((req, res) => {
-	res.status(404).json({ message: "Not found" });
+  res.status(404).json({ message: 'Not found' });
 });
 
 app.use((err, req, res, next) => {
-	const { status = 500, message = "Server error" } = err;
+  const { status = 500, message = 'Server error' } = err;
 
-	if (status === 400) {
-		res.status(status).json(message);
-	}
-	res.status(status).json({ message });
+  if (status === 400) {
+    res.status(status).json(message);
+  }
+  res.status(status).json({ message });
 });
 
 module.exports = app;
