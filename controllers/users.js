@@ -115,7 +115,7 @@ const updateAvatar = async (req, res) => {
     // console.log('Jimp.read >> filename:', filename);
     // console.log('Jimp.read >> avatarDir:', avatarDir);
     fileAvatar
-      .resize(250, 250) // resize
+      .cover(250, 250) // resize
       .quality(60) // set JPEG quality
       // .greyscale() // set greyscale
       .write(`${avatarDir}/${filename}`); // save
