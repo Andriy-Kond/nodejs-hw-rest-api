@@ -6,9 +6,6 @@ const { HttpError } = require('../../helpers');
 const { SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
-  // console.log('login >> req:', req);
-  // console.log('login >> res:', res);
-
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
