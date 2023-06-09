@@ -34,7 +34,6 @@ const mongooseContactSchema = new Schema(
 mongooseContactSchema.post('save', handleMongooseError);
 const Contact = model('contact', mongooseContactSchema);
 
-// Joi Schemas
 const joiAddSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),

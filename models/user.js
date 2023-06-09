@@ -45,7 +45,6 @@ const mongooseUserSchema = new Schema(
 mongooseUserSchema.post('save', handleMongooseError);
 const User = model('user', mongooseUserSchema);
 
-// Joi schemas
 const registerSchema = Joi.object({
   name: Joi.string().required(),
   password: Joi.string().min(6).required(),
