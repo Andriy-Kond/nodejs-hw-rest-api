@@ -5,7 +5,7 @@ const { handleMongooseError } = require('../helpers');
 
 const emailRageXP = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-const userSchema = new Schema(
+const mongooseUserSchema = new Schema(
   {
     name: {
       type: String,
@@ -33,7 +33,7 @@ const userSchema = new Schema(
     },
     avatarURL: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   {
@@ -42,9 +42,10 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.post('save', handleMongooseError);
-const User = model('user', userSchema);
+mongooseUserSchema.post('save', handleMongooseError);
+const User = model('user', mongooseUserSchema);
 
+// Joi schemas
 const registerSchema = Joi.object({
   name: Joi.string().required(),
   password: Joi.string().min(6).required(),
@@ -60,10 +61,10 @@ const updateSubscriptionSchema = Joi.object({
   subscription: Joi.string().valid('starter', 'pro', 'business').required(),
 });
 
-const schemas = {
+const joiSchemas = {
   registerSchema,
   loginSchema,
   updateSubscriptionSchema,
 };
 
-module.exports = { User, schemas };
+module.exports = { User, joiSchemas };

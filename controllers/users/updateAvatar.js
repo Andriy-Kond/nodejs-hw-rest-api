@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs/promises');
 
-const avatarDir = path.join(__dirname, '../', 'public', 'avatars');
+const avatarDir = path.join(__dirname, '../', '../', 'public', 'avatars');
 const Jimp = require('jimp');
 
 const { User } = require('../../models/user');
