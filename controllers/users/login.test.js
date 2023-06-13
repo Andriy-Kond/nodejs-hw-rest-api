@@ -20,14 +20,14 @@ describe('login tests', () => {
   it('should register a new user', async () => {
     const response = await supertest(app).post('/api/users/register').send({
       name: 'Bogdan',
-      email: 'bogdan@mail.com',
+      email: 'akwebua.study@gmail.com',
       password: '123456',
     });
 
     expect(response.status).toEqual(201);
     expect(response.body).toEqual({
       user: {
-        email: 'bogdan@mail.com',
+        email: 'akwebua.study@gmail.com',
         subscription: 'starter',
       },
     });
@@ -35,7 +35,7 @@ describe('login tests', () => {
 
   it('should login user', async () => {
     const loginUser = {
-      email: 'bogdan@mail.com',
+      email: 'akwebua.study@gmail.com',
       password: '123456',
     };
 
@@ -48,7 +48,7 @@ describe('login tests', () => {
     expect(response.body).toEqual({
       token: expect.any(String),
       user: {
-        email: 'bogdan@mail.com',
+        email: 'akwebua.study@gmail.com',
         subscription: 'starter',
       },
     });
