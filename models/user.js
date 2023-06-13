@@ -35,6 +35,17 @@ const mongooseUserSchema = new Schema(
       type: String,
       required: false,
     },
+    // Чи підтверджений email confirmEmail:
+    verify: {
+      type: Boolean,
+      default: false, // після реєстрації - false. Тобто зареєструвались, але email ще не відправили.
+    },
+    // Код підтвердження, що буде приходити на пошту у вигляді посилання:
+    verificationToken: {
+      type: String,
+      default: '', // після реєстрації - false. Тобто зареєструвались, але email ще не відправили.
+      required: [true, 'Verify token is required'],
+    },
   },
   {
     versionKey: false,
@@ -51,6 +62,10 @@ const registerSchema = Joi.object({
   email: Joi.string().pattern(emailRageXP).required(),
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRageXP).required(),
+});
+
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRageXP).required(),
   password: Joi.string().min(6).required(),
@@ -62,6 +77,7 @@ const updateSubscriptionSchema = Joi.object({
 
 const joiSchemas = {
   registerSchema,
+  verifyEmailSchema,
   loginSchema,
   updateSubscriptionSchema,
 };

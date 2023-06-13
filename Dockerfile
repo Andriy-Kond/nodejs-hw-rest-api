@@ -1,12 +1,12 @@
 # шукає node на компі. Якщо не знаходить, то йде на hub.docker.com і завантажує звідти.
 FROM node  
 
-WORKDIR /the/workdir/path
+WORKDIR /rest_api
 
-COPY . .
+COPY . /rest_api/
 
 RUN npm install
 
 EXPOSE 3000
 
-CMD [ "node", "app" ]
+CMD [ "node", "server" ]

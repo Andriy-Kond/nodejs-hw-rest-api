@@ -1,14 +1,14 @@
 const { HttpError } = require('../helpers');
 
-const validateBody = schema => {
+const validateEmailBody = schema => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {
-      next(HttpError(400, `Помилка від Joi або іншої бібліотеки валідації`));
+      res.status(400).json({ message: 'missing required field email' });
     }
     next();
   };
   return func;
 };
 
-module.exports = validateBody;
+module.exports = validateEmailBody;
