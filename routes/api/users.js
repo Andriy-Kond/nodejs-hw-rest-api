@@ -12,7 +12,6 @@ const { joiSchemas } = require('../../models/user');
 
 const router = express.Router();
 
-// signup
 router.post(
   '/register',
   validateBody(joiSchemas.registerSchema),
@@ -27,7 +26,6 @@ router.post(
   ctrl.resendVerifyEmail
 );
 
-// signin
 router.post('/login', validateBody(joiSchemas.loginSchema), ctrl.login);
 
 router.get('/current', authenticate, ctrl.getCurrent);
