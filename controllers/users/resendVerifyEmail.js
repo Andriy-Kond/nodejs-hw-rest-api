@@ -13,12 +13,9 @@ const resendVerifyEmail = async (req, res) => {
     );
   }
 
-  // Якщо юзер вже перевірився:
   if (user.verify) {
     res.status(400).json({ message: 'Verification has already been passed' });
   }
-
-  // Якщо ж такий email є і він не веріфікований, то робимо і відправляємо новий email
 
   const verifyEmail = {
     to: email,

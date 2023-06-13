@@ -9,17 +9,14 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  // Чи є така людина у базі?
   if (!user) {
     throw HttpError(401, 'Email or password is wrong');
   }
 
-  // Чи людина підтвердила свй email?
   if (!user.verify) {
     throw HttpError(401, 'Email was not verified. Please verify your email.');
   }
 
-  // Чи збігаються паролі?
   const passCompare = await bcrypt.compare(password, user.password);
   if (!passCompare) {
     throw HttpError(401, 'Email or password is wrong');

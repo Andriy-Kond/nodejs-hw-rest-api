@@ -23,7 +23,6 @@ router.get('/verify/:verificationToken', ctrl.verifyEmail);
 
 router.post(
   '/verify/',
-  // Є тіло запиту, тому перевіряємо по схемі joi. Але робимо відповідну нову схему
   validateEmailBody(joiSchemas.verifyEmailSchema),
   ctrl.resendVerifyEmail
 );

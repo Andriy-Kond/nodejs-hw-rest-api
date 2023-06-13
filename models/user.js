@@ -35,15 +35,15 @@ const mongooseUserSchema = new Schema(
       type: String,
       required: false,
     },
-    // Чи підтверджений email confirmEmail:
+
     verify: {
       type: Boolean,
-      default: false, // після реєстрації - false. Тобто зареєструвались, але email ще не відправили.
+      default: false,
     },
-    // Код підтвердження, що буде приходити на пошту у вигляді посилання:
+
     verificationToken: {
       type: String,
-      default: '', // після реєстрації - false. Тобто зареєструвались, але email ще не відправили.
+      default: '',
       required: [true, 'Verify token is required'],
     },
   },

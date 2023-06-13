@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
 const { User } = require('../../models/user.js');
 const { HttpError, sendEmail } = require('../../helpers');
-// При реєстрації треба створити код верифікації і записати його у базі
+
 const { nanoid } = require('nanoid');
 
 const register = async (req, res) => {
@@ -15,7 +15,7 @@ const register = async (req, res) => {
   const { BASE_URL } = process.env;
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
-  const verificationToken = nanoid(); // створюємо код верифікації
+  const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
@@ -24,7 +24,6 @@ const register = async (req, res) => {
     verificationToken,
   });
 
-  // Створюємо email для людини на підтвердження її зареєстрованого email-у
   const verifyEmail = {
     to: email,
     subject: 'Verify your email',
