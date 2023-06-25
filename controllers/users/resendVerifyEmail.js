@@ -6,6 +6,7 @@ const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
+  // Такий юзер є?
   if (!user) {
     throw HttpError(
       401,
@@ -13,10 +14,12 @@ const resendVerifyEmail = async (req, res) => {
     );
   }
 
+  // А може юзер вже верифікував свій email раніше?
   if (user.verify) {
     res.status(400).json({ message: 'Verification has already been passed' });
   }
 
+  // Якщо такий email є і він не верифікований, то робимо і відправляємо новий email
   const verifyEmail = {
     to: email,
     subject: 'Verify your email',

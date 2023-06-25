@@ -12,7 +12,7 @@ module.exports = {
   register: ctrlWrapper(register),
   verifyEmail: ctrlWrapper(verifyEmail),
   login: ctrlWrapper(login),
-  getCurrent: ctrlWrapper(getCurrent),
+  getCurrent: ctrlWrapper(getCurrent), // не обов'язково загортати у ctrlWrapper, просто для універсальності
   logout: ctrlWrapper(logout),
   updateSubscriptionUser: ctrlWrapper(updateSubscriptionUser),
   updateAvatar: ctrlWrapper(updateAvatar),
