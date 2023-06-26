@@ -27,6 +27,7 @@ const { DB_HOST, PORT = 3000 } = process.env; // порт може бути ві
 // COMMENT=У значенні змінних .env не має бути знаку hash-tag, інакше після цього знаку все подальші символи не запишуться у змінну
 // SECRET_KEY=4xA-t2xB#y:NS<*$jEGM!q{&LdenI?
 
+// ? Чи потрібний цей рядок?
 mongoose.set('strictQuery', true); // З сьомої версії Mangoose воно false за замовчуванням.
 
 // // Передаємо ключ у імпортований об'єкт sgMail
