@@ -155,3 +155,7 @@ dist
 
 # misc
 .DS_Store
+
+# additional folders and files
+tmp/*
+!tmp/.gitkeep

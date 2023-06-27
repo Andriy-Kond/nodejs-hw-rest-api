@@ -11,7 +11,8 @@ const {
 
 const { joiSchemas } = require('../../models/user');
 
-const router = express.Router();
+const router = express.Router(); // дозволяє створювати окремий роут для різних шляхів (users, contacts)
+// тепер замість app.get() app.use() можна писати router.get(), router.use()
 
 // signup
 router.post(
@@ -49,12 +50,21 @@ router.patch(
 router.patch(
   '/avatars',
   authenticate,
-  upload.single('avatar'),
-  ctrl.updateAvatar
+  // у multer є метод single() - завантажити в одному полі один файл.
+  upload.single('avatar'), // відбувається завантаження ОДНОГО файлу у теку tmp (зазначена у middleWares/upload.js).
+  // // Після цього на req з'являться властивість-об'єкт file (req.file), в якому крім інших є властивість path - шлях до цього файлу (... path: "tmp/file.jpg" ... ):
+  // (req, res) => {
+  //   console.log('req.file :>> ', req.file);
+  //   return res.json({ ok: true });
+  // },
+  // Таким чином multer парсить payload і завантажує файл. Більше він нічого не знає і не робить.
+  ctrl.updateAvatar // в цьому контролері переміщуємо файл у теку /public/avatars
 );
-// // Запис upload.single("cover") означає: ми очикуємо у полі cover один файл, всі інші поля будуть текстовими і їх тре записати у req.body
+// // Запис upload.single("cover") означає: ми очікуємо у полі cover (JSON {cover: ...}) один файл, всі інші поля будуть текстовими і їх тре записати у req.body
 // // Тобто - візьми з поля cover файл, збережи його у теці temp, а текстові поля передай у req.body
+
 // // Якщо ми очікуємо кілька файлів: upload.array("cover", 8) - другий аргумент - максимальна кількість файлів
+
 // // Якщо очікуємо кілька файлів у різних полях: upload.fields([{ name: "cover", maxCount: 1}, { name: "subcover", maxCount: 2}])
 // app.post('/api/books', upload.single('cover'), async (req, res) => {
 //   console.log('req.body :>> ', req.body);
@@ -79,3 +89,12 @@ router.patch(
 // });
 
 module.exports = router;
+
+// // Для завантаження одразу декількох файлів:
+// router.patch(
+//   '/avatars-multiple',
+//   authenticate,
+//   upload.array('avatar'),
+//   // Тільки після цього у нас буде не req.file, а req.files. Це буде масив об'єктів таких же як раніше був req.file
+//   ctrl.updateAvatars // а тут робимо цикл по файлах і переносимо кожний.
+// );

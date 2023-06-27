@@ -1,5 +1,6 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // дозволяє створювати окремий роут для різних шляхів (users, contacts)
+// тепер замість app.get() app.use() можна писати router.get(), router.use()
 
 const ctrl = require('../../controllers/contacts');
 // Додаю middleware аутентифікації:

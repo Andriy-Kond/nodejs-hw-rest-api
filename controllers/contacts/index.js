@@ -4,13 +4,13 @@ const addContact = require('./addContact');
 const changeContact = require('./changeContact');
 const updateStatusContact = require('./updateStatusContact');
 const removeContact = require('./removeContact');
-const { ctrlWrapper } = require('../../helpers');
+const { tryCatchWrapper } = require('../../helpers');
 
 module.exports = {
-  listContacts: ctrlWrapper(listContacts),
-  getContactById: ctrlWrapper(getContactById),
-  addContact: ctrlWrapper(addContact),
-  changeContact: ctrlWrapper(changeContact),
-  updateStatusContact: ctrlWrapper(updateStatusContact),
-  removeContact: ctrlWrapper(removeContact),
+  listContacts: tryCatchWrapper(listContacts),
+  getContactById: tryCatchWrapper(getContactById),
+  addContact: tryCatchWrapper(addContact),
+  changeContact: tryCatchWrapper(changeContact),
+  updateStatusContact: tryCatchWrapper(updateStatusContact),
+  removeContact: tryCatchWrapper(removeContact),
 };

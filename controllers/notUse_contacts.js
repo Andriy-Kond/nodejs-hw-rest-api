@@ -3,7 +3,7 @@
 // // Стало:
 const { Contact } = require('../models/contact');
 
-const { HttpError, ctrlWrapper } = require('../helpers');
+const { HttpError, tryCatchWrapper } = require('../helpers');
 // Схеми валідації теж виносимо в окремий файл, в якому під кожен об'єкт створюємо свої схеми (schemas/contacts.js)
 // const Joi = require("joi");
 // const addSchema = Joi.object({
@@ -170,10 +170,10 @@ const removeContact = async (req, res) => {
 // Встановлює операцію пошуку та видалення, під час якої з колекції видаляється перший же документ, що збігається із запитом
 
 module.exports = {
-  listContacts: ctrlWrapper(listContacts),
-  getContactById: ctrlWrapper(getContactById),
-  addContact: ctrlWrapper(addContact),
-  changeContact: ctrlWrapper(changeContact),
-  updateStatusContact: ctrlWrapper(updateStatusContact),
-  removeContact: ctrlWrapper(removeContact),
+  listContacts: tryCatchWrapper(listContacts),
+  getContactById: tryCatchWrapper(getContactById),
+  addContact: tryCatchWrapper(addContact),
+  changeContact: tryCatchWrapper(changeContact),
+  updateStatusContact: tryCatchWrapper(updateStatusContact),
+  removeContact: tryCatchWrapper(removeContact),
 };

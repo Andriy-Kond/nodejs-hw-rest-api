@@ -15,13 +15,13 @@ const authRouter = require('./routes/api/users');
 const app = express(); // app - це наш web-server, що буде генерувати запити
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'; // виводити у logger (як console.log) повну, або коротку інформацію
 
-app.use(logger(formatsLogger));
+app.use(logger(formatsLogger)); // для логування у консолі
 app.use(cors()); // якщо треба обмежити доступ, то в пакет cors() можна передати список дозволених адрес
-app.use(express.json());
+app.use(express.json()); // для того, щоби тіло відповіді було у вигляді об'єкту JSON, а не рядку
 app.use(express.static('public')); // Якщо прийде запит на статичний файл, то треба його шукати лише у теці "public"
 
 app.use('*/api/users', authRouter);
-app.use('/api/contacts', contactsRouter); // всі запити, що починаються з /api/books тре шукати у contactsRouter
+app.use('/api/contacts', contactsRouter); // всі запити, що починаються з /api/contacts тре шукати у contactsRouter
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
@@ -32,7 +32,7 @@ app.use((req, res) => {
 // });
 
 // При будь-якій помилці від middleware ми потрапимо сюди:
-// Обробка помилок (сюди її передає next(error) з ctrlWrapper)
+// Обробка помилок (сюди її передає next(error) з tryCatchWrapper)
 // Для використання з різними помилками даємо значення за замовчуванням:
 app.use((err, req, res, next) => {
   // mongoose кидає помилки без статусу. А якщо статусу немає, то за замовчуванням статус = 500

@@ -4,17 +4,17 @@ const getCurrent = require('./getCurrent');
 const logout = require('./logout');
 const updateSubscriptionUser = require('./updateSubscriptionUser');
 const updateAvatar = require('./updateAvatar');
-const { ctrlWrapper } = require('../../helpers');
+const { tryCatchWrapper } = require('../../helpers');
 const verifyEmail = require('./verifyEmail');
 const resendVerifyEmail = require('./resendVerifyEmail');
 
 module.exports = {
-  register: ctrlWrapper(register),
-  verifyEmail: ctrlWrapper(verifyEmail),
-  login: ctrlWrapper(login),
-  getCurrent: ctrlWrapper(getCurrent), // не обов'язково загортати у ctrlWrapper, просто для універсальності
-  logout: ctrlWrapper(logout),
-  updateSubscriptionUser: ctrlWrapper(updateSubscriptionUser),
-  updateAvatar: ctrlWrapper(updateAvatar),
-  resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
+  register: tryCatchWrapper(register),
+  verifyEmail: tryCatchWrapper(verifyEmail),
+  login: tryCatchWrapper(login),
+  getCurrent: tryCatchWrapper(getCurrent), // не обов'язково загортати у tryCatchWrapper, просто для універсальності
+  logout: tryCatchWrapper(logout),
+  updateSubscriptionUser: tryCatchWrapper(updateSubscriptionUser),
+  updateAvatar: tryCatchWrapper(updateAvatar),
+  resendVerifyEmail: tryCatchWrapper(resendVerifyEmail),
 };

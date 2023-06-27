@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs/promises');
 
 const avatarDir = path.join(__dirname, '../', '../', 'public', 'avatars');
-const Jimp = require('jimp');
+const Jimp = require('jimp'); // обробка файлів при зберіганні
 
 const { User } = require('../../models/user');
 
@@ -21,8 +21,16 @@ const updateAvatar = async (req, res) => {
   // Створюємо новий шлях - до шляху до теки з аватаром (avatarDir) додаємо ім'я файлу
   const resultUpload = path.join(avatarDir, filename); // абсолютний шлях на сервер
 
-  // переміщуємо файл до нової теки: з tempUpload до resultUpload
-  await fs.rename(tempUpload, resultUpload);
+  try {
+    // переміщуємо файл до нової теки: з tempUpload до resultUpload
+    await fs.rename(tempUpload, resultUpload); // move file to other directory
+    // або просто:
+    // await fs.rename(req.file.path, path.join(__dirname, '../', '../', 'public', 'avatars', filename));
+  } catch (error) {
+    // якщо помилка, то видаляємо цей файл
+    await fs.unlink(req.file.path); // remove
+    throw error;
+  }
 
   // Обробляємо поля з фронтенду - додаємо унікальний id і відносний шлях (відносно адреси сайту), де лежить доданий файл
   // const newFilePath = path.join('public', 'avatars', originalname);
