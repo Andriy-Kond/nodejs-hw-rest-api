@@ -19,6 +19,8 @@ app.use(logger(formatsLogger)); // для логування у консолі
 app.use(cors()); // якщо треба обмежити доступ, то в пакет cors() можна передати список дозволених адрес
 app.use(express.json()); // для того, щоби тіло відповіді було у вигляді об'єкту JSON, а не рядку
 app.use(express.static('public')); // Якщо прийде запит на статичний файл, то треба його шукати лише у теці "public"
+// або:
+// app.use('/images', express.static('public/images')); // По запиту на /image надати доступ до теки image
 
 app.use('*/api/users', authRouter);
 app.use('/api/contacts', contactsRouter); // всі запити, що починаються з /api/contacts тре шукати у contactsRouter

@@ -66,6 +66,7 @@ router.patch(
 // // Якщо ми очікуємо кілька файлів: upload.array("cover", 8) - другий аргумент - максимальна кількість файлів
 
 // // Якщо очікуємо кілька файлів у різних полях: upload.fields([{ name: "cover", maxCount: 1}, { name: "subcover", maxCount: 2}])
+
 // app.post('/api/books', upload.single('cover'), async (req, res) => {
 //   console.log('req.body :>> ', req.body);
 //   // req.body :>>  [Object: null prototype] { title: 'girl genius', author: 'Gogilo' }
