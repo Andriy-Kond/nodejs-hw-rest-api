@@ -1,3 +1,5 @@
+// Інтеграційний тест (коннект до БД)
+
 // 1. Написати unit-тести для контролера входу (логін)
 // За допомогою Jest
 // відповідь повинна мати статус-код 200
@@ -34,24 +36,23 @@ const { DB_TEST_HOST } = process.env; // DB_TEST_HOST - тестова база
 //       mongoose.connection.close(() => done());
 //     });
 //   });
-// ...
 
-// Але для supertest не потрібно явно запускати app на порту 3000 (app.listen(PORT)). Він запускає його автоматично.
+// Для supertest не потрібно явно запускати app на порту 3000 (app.listen(PORT)). Він запускає його автоматично.
 describe('login tests', () => {
   beforeAll(async () => {
-    await mongoose.connect(DB_TEST_HOST);
+    await mongoose.connect(DB_TEST_HOST); // підключення до тестової БД
   });
 
   afterAll(async () => {
     await User.deleteMany(); // видаляю всіх юзерів з db після всіх тестів
     await mongoose.disconnect(); // Закриваю сервер
-    // await mongoose.connection.close();  // Закриваю сервер?
+    // await mongoose.connection.close();  //? Закриваю сервер?
   });
 
-  // Перевірка реєстрації
+  //* Перевірка реєстрації
   it('should register a new user', async () => {
     const response = await supertest(app).post('/api/users/register').send({
-      name: 'Bogdan',
+      name: 'Andriy',
       email: 'akwebua.study@gmail.com',
       password: '123456',
     });
@@ -63,11 +64,13 @@ describe('login tests', () => {
       user: {
         email: 'akwebua.study@gmail.com',
         subscription: 'starter',
+        // id: expect.any(String),
       },
     });
   });
 
-  // Перевірка логізації
+  //* Перевірка логізації
+  // тре підмінити ф-ю створення юзера на mock-метод (Аліна [FSon55] Модуль 5 Заняття 2 Робота із зображеннями. Тестування (Гендзелюк).mp4 - 02:00:00)
   it('should login user', async () => {
     // // Перед тим як пееревіряти логін, людину треба додати у базу:
     // const newUser = {

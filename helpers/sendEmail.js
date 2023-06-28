@@ -1,9 +1,9 @@
-const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
+const sendGridMail = require('@sendgrid/mail');
 
-const { SENDGRID_REST_API_KEY } = process.env;
+const { SENDGRID_REST_API_KEY } = process.env; // ключ на sendgrid
 
-sgMail.setApiKey(SENDGRID_REST_API_KEY);
+sendGridMail.setApiKey(SENDGRID_REST_API_KEY);
 
 // Універсальна ф-я відправи email:
 async function sendEmail(data) {
@@ -11,7 +11,7 @@ async function sendEmail(data) {
     ...data,
     from: 'akwebua.study@gmail.com',
   };
-  await sgMail.send(email);
+  await sendGridMail.send(email);
   return true; // Якщо все добре. А якщо ні - ф-я викидає помилку, з якою далі розбираємось
 }
 

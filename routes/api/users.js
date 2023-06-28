@@ -60,42 +60,42 @@ router.patch(
   // Таким чином multer парсить payload і завантажує файл. Більше він нічого не знає і не робить.
   ctrl.updateAvatar // в цьому контролері переміщуємо файл у теку /public/avatars
 );
-// // Запис upload.single("cover") означає: ми очікуємо у полі cover (JSON {cover: ...}) один файл, всі інші поля будуть текстовими і їх тре записати у req.body
-// // Тобто - візьми з поля cover файл, збережи його у теці temp, а текстові поля передай у req.body
+// Запис upload.single("cover") означає: ми очікуємо у полі cover (JSON {cover: ...}) один файл, всі інші поля будуть текстовими і їх тре записати у req.body
+// Тобто - візьми з поля cover файл, збережи його у теці temp, а текстові поля передай у req.body
 
-// // Якщо ми очікуємо кілька файлів: upload.array("cover", 8) - другий аргумент - максимальна кількість файлів
+//* Якщо ми очікуємо кілька файлів: upload.array("cover", 8) - другий аргумент - максимальна кількість файлів
 
-// // Якщо очікуємо кілька файлів у різних полях: upload.fields([{ name: "cover", maxCount: 1}, { name: "subcover", maxCount: 2}])
+//* Якщо очікуємо кілька файлів у різних полях: upload.fields([{ name: "cover", maxCount: 1}, { name: "subcover", maxCount: 2}])
 
-// app.post('/api/books', upload.single('cover'), async (req, res) => {
-//   console.log('req.body :>> ', req.body);
-//   // req.body :>>  [Object: null prototype] { title: 'girl genius', author: 'Gogilo' }
-//   console.log('req.file :>> ', req.file);
-//   //   req.file :>>  {
-//   //   fieldname: 'cover',
-//   //   originalname: 'Screenshot_1.jpg',
-//   //   encoding: '7bit',
-//   //   mimetype: 'image/jpeg',
-//   //   destination: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp',
-//   //
-//   //   filename: '095c5e971d252c8becfc0128aefdea6b',
-//   //   path: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp\\095c5e971d252c8becfc0128aefdea6b',
-//   //
-//   //   або, якщо прописати "filename: ..." у multerConfig middleWares/upload.js:
-//   //   filename: 'Screenshot_1.jpg',
-//   //   path: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp\\Screenshot_1.jpg',
-//   //
-//   //   size: 59330
-//   // }
-// });
+app.post('/api/books', upload.single('cover'), async (req, res) => {
+  console.log('req.body :>> ', req.body);
+  // req.body :>>  [Object: null prototype] { title: 'girl genius', author: 'Gogilo' }
+  console.log('req.file :>> ', req.file);
+  //   req.file :>>  {
+  //   fieldname: 'cover',
+  //   originalname: 'Screenshot_1.jpg',
+  //   encoding: '7bit',
+  //   mimetype: 'image/jpeg',
+  //   destination: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp',
+  //
+  //   filename: '095c5e971d252c8becfc0128aefdea6b',
+  //   path: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp\\095c5e971d252c8becfc0128aefdea6b',
+  //
+  //   або, якщо прописати "filename: ..." у multerConfig middleWares/upload.js:
+  //   filename: 'Screenshot_1.jpg',
+  //   path: 'D:\\Programming\\JS-Node-HW\\Module-05\\file-delivery-multer\\temp\\Screenshot_1.jpg',
+  //
+  //   size: 59330
+  // }
+});
 
 module.exports = router;
 
-// // Для завантаження одразу декількох файлів:
+//* Для завантаження одразу декількох файлів:
 // router.patch(
 //   '/avatars-multiple',
 //   authenticate,
 //   upload.array('avatar'),
-//   // Тільки після цього у нас буде не req.file, а req.files. Це буде масив об'єктів таких же як раніше був req.file
+// // Тільки після цього у нас буде не req.file, а req.files. Це буде масив об'єктів таких же як раніше був req.file
 //   ctrl.updateAvatars // а тут робимо цикл по файлах і переносимо кожний.
 // );

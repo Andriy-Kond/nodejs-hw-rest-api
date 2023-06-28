@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--* Якщо треба з поля інпут отримувати текст, то додаємо axios, або юзаємо fetch -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
+    <title>Document</title>
+  </head>
+
+  <body>
+    <form id="form1">
+      <!-- <input type="file" name="image" multiple accept="image/png" />
+        multiple - для декількох файлів.
+        accept="image/png" - дозволено обирати лише зображення png. Але на беку все одно тре робити перевірку, що це саме цей фармат, а не якійсь інший -->
+      <label for="image">Movie image</label>
+      <input type="file" name="image" />
+      <!-- type="file" додає кнопку Choose File автоматично -->
+
+      <input type="text" name="imageName" />
+      <button type="submit">Upload</button>
+    </form>
+
+    <script>
+      const form = document.getElementById('form1');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('image', e.target.image.files[0]);
+        formData.append('imageName', e.target.imageName.value);
+
+        const url = 'http://localhost:3000/api/upload';
+        fetch(url, {
+          method: 'post',
+          body: formData,
+        }).catch(console.error);
+        console.log('submit');
+      });
+    </script>
+
+    <!--* Якщо треба з поля інпут отримувати текст -->
+    <form id="form2">
+      <label for="movieName">Movie image</label>
+      <input type="text" name="movieName" />
+      <button type="submit">Create new movie</button>
+    </form>
+
+    <script>
+      //   const form = document.getElementById('form2');
+      //   form.addEventListener('submit', e => {
+      //     e.preventDefault();
+
+      //     const movieName = e.target.movieName.value);
+      //     console.log('movieName:', movieName)
+
+      //     const url = 'http://localhost:3001/api/movies';
+      //     // і далі або fetch:
+      //     fetch(url, {
+      //       method: 'POST',
+      //       headers: { 'Content-Type': 'application/json' },
+      //       body: { title: movieName },
+      //     })
+      //       .then(res => console.log(res))
+      //       .catch(err => console.log(err));
+      //     // або axios:
+      //     axios
+      //       .post(url, '/user', {
+      //         title: movieName,
+      //       })
+      //       .then(res => console.log(res))
+      //       .catch(err => console.log(err));
+      //   });
+    </script>
+  </body>
+</html>
