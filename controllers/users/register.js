@@ -3,6 +3,8 @@ const gravatar = require('gravatar'); // робота з тимчасовими 
 const { User } = require('../../models/user.js');
 const { HttpError, sendEmail } = require('../../helpers');
 
+const { v4 } = requirre('uuid');
+
 // При реєстрації треба створити код верифікації і записати його у базі. Для генерації коду - nanoid
 const { nanoid } = require('nanoid');
 
@@ -41,6 +43,16 @@ const register = async (req, res) => {
   };
 
   await sendEmail(verifyEmail);
+
+  //^ Гендзелюк:
+  // const tokenUUID = v4();
+  // await sendEmail({
+  //   to: email,
+  //   subject: 'confirm email',
+  //   html: `Please confirm your email by clicking on <a hrem="http://localhost:3001/users/verify${tokenUUID}>this link</a>`,
+  // });
+
+  //^ /Гендзелюк:
 
   res.status(201).json({
     user: {
