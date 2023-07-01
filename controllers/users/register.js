@@ -44,15 +44,14 @@ const register = async (req, res) => {
 
   await sendEmail(verifyEmail);
 
-  //^ Гендзелюк:
+  //^ Гендзелюк
   // const tokenUUID = v4();
   // await sendEmail({
   //   to: email,
   //   subject: 'confirm email',
   //   html: `Please confirm your email by clicking on <a hrem="http://localhost:3001/users/verify${tokenUUID}>this link</a>`,
   // });
-
-  //^ /Гендзелюк:
+  //^ /Гендзелюк
 
   res.status(201).json({
     user: {
